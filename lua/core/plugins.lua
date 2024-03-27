@@ -22,4 +22,6 @@ require("lazy").setup({
     { "nvim-tree/nvim-tree.lua" },
     { "nvim-tree/nvim-web-devicons" },
     { "nvim-lualine/lualine.nvim" },
+    { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
+    { "nvim-telescope/telescope.nvim", branch = "0.1.x" },
 })
