@@ -25,3 +25,6 @@ keymap.set("n", "<C-h>", ":split<CR>")
 
 -- make split windows equal width
 keymap.set("n", "<C-s>", "<C-w>=")
+
+-- nvim-tree toggle
+keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>")
