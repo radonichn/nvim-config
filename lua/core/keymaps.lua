@@ -10,8 +10,6 @@ keymap.set("n", "<leader>nh", ":nohl<CR>")
 
 keymap.set("n", "<leader>w", ":w<CR>")
 keymap.set("n", "<leader>q", ":q<CR>")
-keymap.set("n", "<leader>wq", ":wq<CR>")
-keymap.set("n", "<leader>qq", ":q!<CR>")
 
 -- moving between windows
 keymap.set("n", "<S-k>", ":wincmd K<CR>")
