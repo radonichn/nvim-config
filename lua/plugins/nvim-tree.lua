@@ -1,6 +1,5 @@
 vim.g.loaded = 1
 vim.g.loaded_netrwPlugin = 1
-vim.opt.termguicolors = true
 
 local HEIGHT_RATIO = 0.8 -- You can change this
 local WIDTH_RATIO = 0.5
