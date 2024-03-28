@@ -35,7 +35,7 @@ lspconfig.tailwindcss.setup({
 	capabilities = capabilities,
 })
 
-lspconfig.typescript.setup({
+lspconfig.tsserver.setup({
 	capabilities = capabilities,
 })
 
