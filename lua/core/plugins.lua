@@ -17,8 +17,9 @@ require("lazy").setup({
 
     { "nvim-lua/plenary.nvim" },
     { "tpope/vim-surround" },
-    { "windwp/nvim-autopairs" },
     { "numToStr/Comment.nvim" },
+
+    { "windwp/nvim-autopairs" },
     { "nvim-tree/nvim-tree.lua" },
     { "nvim-tree/nvim-web-devicons" },
     { "nvim-lualine/lualine.nvim" },
@@ -32,4 +33,14 @@ require("lazy").setup({
 	{ "hrsh7th/cmp-vsnip" },
 	{ "hrsh7th/vim-vsnip" },
 	{ "hrsh7th/vim-vsnip-integ" },
+    { "williamboman/mason.nvim" },
+	{ "williamboman/mason-lspconfig.nvim" },
+	{ "neovim/nvim-lspconfig" },
+	{ "glepnir/lspsaga.nvim", branch = "main" },
+	{ "jose-elias-alvarez/typescript.nvim" },
+	{ "onsails/lspkind.nvim" },
+    { "jose-elias-alvarez/null-ls.nvim" },
+    { "jayp0521/mason-null-ls.nvim" },
+    { "folke/neodev.nvim" },
+    { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
 })
