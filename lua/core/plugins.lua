@@ -29,9 +29,6 @@ require("lazy").setup({
 		dependencies = {
 			"nvim-telescope/telescope-fzf-native.nvim",
 			build = "make",
-			config = function()
-				require("telescope").load_extension("fzf")
-			end,
 		},
 	},
 	{ "hrsh7th/cmp-nvim-lsp" },
