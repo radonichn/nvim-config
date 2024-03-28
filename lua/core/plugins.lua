@@ -23,8 +23,17 @@ require("lazy").setup({
 	{ "nvim-tree/nvim-tree.lua" },
 	{ "nvim-tree/nvim-web-devicons" },
 	{ "nvim-lualine/lualine.nvim" },
-	{ "nvim-telescope/telescope.nvim", branch = "0.1.x" },
-	{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
+	{
+		"nvim-telescope/telescope.nvim",
+		branch = "0.1.x",
+		dependencies = {
+			"nvim-telescope/telescope-fzf-native.nvim",
+			build = "make",
+			config = function()
+				require("telescope").load_extension("fzf")
+			end,
+		},
+	},
 	{ "hrsh7th/cmp-nvim-lsp" },
 	{ "hrsh7th/cmp-buffer" },
 	{ "hrsh7th/cmp-path" },
