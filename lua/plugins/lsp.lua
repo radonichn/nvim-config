@@ -36,14 +36,20 @@ lspconfig.tailwindcss.setup({
 })
 
 lspconfig.tsserver.setup({
+	init_options = {
+		plugins = {
+			{
+				name = "@vue/typescript-plugin",
+				location = "/usr/lib/node_modules/@vue/language-server", -- change this to actual path to @vue/language-server if this doesn't work
+				languages = { "vue" },
+			},
+		},
+	},
+	filetypes = { "typescript", "javascript", "vue" },
 	capabilities = capabilities,
 })
-
-lspconfig.volar.setup({
-	filetypes = { "vue" },
-	root_dir = lspconfig.util.root_pattern("package.json", "vue.config.js"),
-	capabilities = capabilities,
-})
+-- No need to set `hybridMode` to `true` as it's the default value
+lspconfig.volar.setup({})
 
 lspconfig.eslint.setup({
 	capabilities = capabilities,
