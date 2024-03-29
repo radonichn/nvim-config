@@ -49,4 +49,8 @@ require("lazy").setup({
 	{ "jayp0521/mason-null-ls.nvim" },
 	{ "folke/neodev.nvim" },
 	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+
+	{ "lewis6991/gitsigns.nvim" },
+
+	{ "github/copilot.vim" },
 })
