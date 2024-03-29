@@ -40,6 +40,8 @@ lspconfig.tsserver.setup({
 })
 
 lspconfig.volar.setup({
+	filetypes = { "vue" },
+	root_dir = lspconfig.util.root_pattern("package.json", "vue.config.js"),
 	capabilities = capabilities,
 })
 
