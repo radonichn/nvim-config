@@ -41,6 +41,7 @@ lspconfig.tsserver.setup({
 			{
 				name = "@vue/typescript-plugin",
 				location = "/usr/lib/node_modules/@vue/language-server", -- change this to actual path to @vue/language-server if this doesn't work
+				-- location = "/usr/local/lib/node_modules/@vue/language-server", -- for MacOS
 				languages = { "vue" },
 			},
 		},
