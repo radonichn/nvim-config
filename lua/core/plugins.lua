@@ -45,8 +45,6 @@ require("lazy").setup({
 	{ "glepnir/lspsaga.nvim", branch = "main" },
 	{ "jose-elias-alvarez/typescript.nvim" },
 	{ "onsails/lspkind.nvim" },
-	{ "jose-elias-alvarez/null-ls.nvim" },
-	{ "jayp0521/mason-null-ls.nvim" },
 	{ "folke/neodev.nvim" },
 	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
 

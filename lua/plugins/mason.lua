@@ -39,16 +39,8 @@ require("mason-lspconfig").setup({
 		"intelephense",
 		"volar",
 		"lua_ls",
+		"eslint",
 	},
 	automatic_installation = true,
 	handlers = nil,
-})
-
-require("mason-null-ls").setup({
-	ensure_installed = {
-		"prettier",
-		"stylua",
-		"eslint_d",
-	},
-	automatic_installation = true,
 })
