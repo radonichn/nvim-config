@@ -1,2 +1,2 @@
 vim.opt.termguicolors = true
-require("kanagawa").load("wave")
+require("kanagawa").load("lotus")
