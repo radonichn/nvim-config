@@ -1,2 +1,2 @@
 vim.opt.termguicolors = true
-require("kanagawa").load("lotus")
+vim.cmd("colorscheme duskfox")

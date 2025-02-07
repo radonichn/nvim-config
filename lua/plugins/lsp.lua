@@ -35,12 +35,12 @@ lspconfig.tailwindcss.setup({
 	capabilities = capabilities,
 })
 
-lspconfig.tsserver.setup({
+lspconfig.ts_ls.setup({
 	init_options = {
 		plugins = {
 			{
 				name = "@vue/typescript-plugin",
-				location = "/usr/lib/node_modules/@vue/language-server", -- change this to actual path to @vue/language-server if this doesn't work
+				location = "/usr/local/lib/node_modules/@vue/language-server", -- change this to actual path to @vue/language-server if this doesn't work
 				-- location = "/usr/local/lib/node_modules/@vue/language-server", -- for MacOS
 				languages = { "vue" },
 			},
@@ -63,6 +63,7 @@ lspconfig.eslint.setup({
 })
 
 lspconfig.intelephense.setup({
+    filetypes = { "php", "blade" },
 	capabilities = capabilities,
 })
 

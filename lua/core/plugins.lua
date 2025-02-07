@@ -13,7 +13,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-	{ "rebelot/kanagawa.nvim" },
+	{ "EdenEast/nightfox.nvim" },
 
 	{ "nvim-lua/plenary.nvim" },
 	{ "tpope/vim-surround" },
@@ -22,7 +22,10 @@ require("lazy").setup({
 	{ "windwp/nvim-autopairs" },
 	{ "nvim-tree/nvim-tree.lua" },
 	{ "nvim-tree/nvim-web-devicons" },
-	{ "nvim-lualine/lualine.nvim" },
+	{ 
+        "nvim-lualine/lualine.nvim",
+        dependencies = { 'nvim-tree/nvim-web-devicons' }
+    },
 	{
 		"nvim-telescope/telescope.nvim",
 		branch = "0.1.x",
