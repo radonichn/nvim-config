@@ -1,16 +1,12 @@
-require("core.plugins")
-require("core.options")
-require("core.keymaps")
-require("core.colorscheme")
+vim.loader.enable()
 
-require("plugins.autopairs")
-require("plugins.comment")
-require("plugins.nvim-tree")
-require("plugins.lualine")
-require("plugins.telescope")
-require("plugins.nvim-cmp")
-require("plugins.mason")
-require("plugins.lsp")
-require("plugins.lspsaga")
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+
+require("config.options")
+require("config.keymaps")
+
+require("plugins.colorscheme")
 require("plugins.treesitter")
-require("plugins.gitsigns")
+require("plugins.finder")
+require("plugins.lsp")

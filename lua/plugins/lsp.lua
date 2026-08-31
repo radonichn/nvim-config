@@ -1,106 +1,90 @@
-require("cmp").setup({
-	sources = {
-		{ name = "nvim_lsp" },
-	},
+vim.pack.add({
+  { src = 'https://github.com/neovim/nvim-lspconfig' },
 })
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+-- Resolve npm's global install location dynamically, so this works on
+-- any machine regardless of where npm puts global packages.
+local npm_root = vim.trim(vim.fn.system('npm root -g'))
+local vue_language_server_path = npm_root .. '/@vue/language-server'
 
-local lspconfig = require("lspconfig")
-local lsputil = require("lspconfig/util")
-
-lspconfig.pyright.setup({
-	root_dir = lsputil.root_pattern(
-		".git",
-		"pyrightconfig.json",
-		"setup.py",
-		"setup.cfg",
-		"requirements.txt",
-		"Pipfile",
-		"pyproject.toml"
-	),
-	capabilities = capabilities,
+-- TypeScript/JavaScript, extended with the Vue plugin so it also
+-- understands the <script> blocks inside .vue files
+vim.lsp.config('ts_ls', {
+  init_options = {
+    plugins = {
+      {
+        name = '@vue/typescript-plugin',
+        location = vue_language_server_path,
+        languages = { 'vue' },
+      },
+    },
+  },
+  filetypes = {
+    'javascript', 'javascriptreact',
+    'typescript', 'typescriptreact',
+    'vue',
+  },
 })
 
-lspconfig.html.setup({
-	capabilities = capabilities,
+-- Vue's own server, handling template/CSS parts of .vue files
+-- (hybrid mode is the default — no extra config needed here)
+vim.lsp.config('vue_ls', {})
+
+-- CSS
+vim.lsp.config('cssls', {})
+
+-- HTML
+vim.lsp.config('html', {})
+
+-- Tailwind CSS (works alongside cssls, gives class-name completion + hover swatches)
+vim.lsp.config('tailwindcss', {})
+
+-- PHP / Laravel
+vim.lsp.config('intelephense', {
+  settings = {
+    intelephense = {
+      files = { maxSize = 5000000 },
+    },
+  },
 })
 
-lspconfig.cssls.setup({
-	capabilities = capabilities,
+-- Lua, for editing this config with proper diagnostics
+vim.lsp.config('lua_ls', {
+  settings = {
+    Lua = {
+      diagnostics = { globals = { 'vim' } },
+      workspace = { checkThirdParty = false },
+      telemetry = { enable = false },
+    },
+  },
 })
 
-lspconfig.tailwindcss.setup({
-	capabilities = capabilities,
+vim.lsp.enable({
+  'ts_ls', 'vue_ls', 'cssls', 'html', 'tailwindcss', 'intelephense', 'lua_ls',
 })
 
-lspconfig.ts_ls.setup({
-	init_options = {
-		plugins = {
-			{
-				name = "@vue/typescript-plugin",
-				location = "/usr/local/lib/node_modules/@vue/language-server", -- change this to actual path to @vue/language-server if this doesn't work
-				-- location = "/usr/local/lib/node_modules/@vue/language-server", -- for MacOS
-				languages = { "vue" },
-			},
-		},
-	},
-	filetypes = { "typescript", "javascript", "vue" },
-	capabilities = capabilities,
-})
--- No need to set `hybridMode` to `true` as it's the default value
-lspconfig.volar.setup({})
-
-lspconfig.eslint.setup({
-	on_attach = function(_, bufnr)
-		vim.api.nvim_create_autocmd("BufWritePre", {
-			buffer = bufnr,
-			command = "EslintFixAll",
-		})
-	end,
-	capabilities = capabilities,
+-- Baseline keymaps + diagnostic styling, applied once per buffer an LSP attaches to
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(args)
+    local opts = { buffer = args.buf }
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+    vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+  end,
 })
 
-lspconfig.intelephense.setup({
-    filetypes = { "php", "blade" },
-	capabilities = capabilities,
+vim.diagnostic.config({
+  virtual_text = true,
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = '✘',
+      [vim.diagnostic.severity.WARN] = '▲',
+      [vim.diagnostic.severity.INFO] = '●',
+      [vim.diagnostic.severity.HINT] = '○',
+    },
+  },
 })
-
-require("neodev").setup({})
-lspconfig.lua_ls.setup({
-	settings = {
-		Lua = {
-			completion = {
-				callSnippet = "Replace",
-			},
-		},
-	},
-})
-
-vim.keymap.set("n", "<space>do", vim.diagnostic.open_float)
-vim.keymap.set("n", "<space>dp", vim.diagnostic.goto_prev)
-vim.keymap.set("n", "<space>dn", vim.diagnostic.goto_next)
-
-vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-	callback = function(ev)
-		vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
-
-		local opts = { buffer = ev.buf }
-		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-		vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-		vim.keymap.set("n", "<C-sh>", vim.lsp.buf.signature_help, opts)
-		vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, opts)
-		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-		vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
-		vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-		vim.keymap.set("n", "<leader>f", function()
-			vim.lsp.buf.format({ async = true })
-		end, opts)
-	end,
-})
-
-vim.diagnostic.config({ update_in_insert = false })
