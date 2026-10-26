@@ -31,15 +31,28 @@ vim.lsp.config('ts_ls', {
   },
 })
 
+local function find_tsdk(dir)
+  while dir do
+    local lib = vim.fs.joinpath(dir, 'node_modules', 'typescript', 'lib')
+    if vim.uv.fs_stat(vim.fs.joinpath(lib, 'typescript.js')) then
+      return lib
+    end
+    local parent = vim.fs.dirname(dir)
+    if parent == dir then
+      return nil
+    end
+    dir = parent
+  end
+end
+
 vim.lsp.config('vue_ls', {
   cmd = function(dispatchers, config)
     local cmd = { 'vue-language-server', '--stdio' }
-    local tsdk = config.root_dir
-      and vim.fs.joinpath(config.root_dir, 'node_modules', 'typescript', 'lib')
-    if tsdk and vim.uv.fs_stat(vim.fs.joinpath(tsdk, 'typescript.js')) then
+    local tsdk = config.root_dir and find_tsdk(config.root_dir)
+    if tsdk then
       table.insert(cmd, '--tsdk=' .. tsdk)
     else
-      vim.notify('vue_ls: no TypeScript 5 in this project; the server may not start.',
+      vim.notify('vue_ls: no TypeScript 5 at or above the project root; the server may not start.',
         vim.log.levels.WARN)
     end
     return vim.lsp.rpc.start(cmd, dispatchers)
@@ -64,7 +77,7 @@ vim.lsp.config('lua_ls', {
 })
 
 vim.lsp.enable({
-  'ts_ls', 'vue_ls', 'cssls', 'html', 'tailwindcss', 'intelephense', 'lua_ls',
+  'ts_ls', 'vue_ls', 'eslint', 'cssls', 'html', 'tailwindcss', 'intelephense', 'lua_ls',
 })
 
 vim.api.nvim_create_autocmd('LspAttach', {

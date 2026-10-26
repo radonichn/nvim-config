@@ -29,7 +29,17 @@ map('n', 'N', 'Nzzzv')
 map('x', '<leader>p', '"_dP', { desc = 'Paste without overwriting register' })
 
 -- Quick save/quit
-map('n', '<leader>w', ':w<CR>', { desc = 'Save file' })
+local function write_formatted()
+  local buf = vim.api.nvim_get_current_buf()
+  if next(vim.lsp.get_clients({ bufnr = buf, name = 'eslint' })) then
+    vim.cmd('LspEslintFixAll')
+  elseif next(vim.lsp.get_clients({ bufnr = buf, method = 'textDocument/formatting' })) then
+    vim.lsp.buf.format({ bufnr = buf, timeout_ms = 3000 })
+  end
+  vim.cmd('write')
+end
+
+map('n', '<leader>w', write_formatted, { desc = 'Format and save file' })
 map('n', '<leader>q', ':q<CR>', { desc = 'Quit' })
 
 -- Split management

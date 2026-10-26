@@ -5,6 +5,8 @@ vim.pack.add({
 -- Icons used by mini.pick and mini.files (and later mini.statusline)
 require('mini.icons').setup()
 
+vim.env.RIPGREP_CONFIG_PATH = vim.fn.stdpath('config') .. '/rg.conf'
+
 -- Fuzzy finder
 require('mini.pick').setup({
   mappings = {
